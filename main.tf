@@ -176,7 +176,7 @@ resource "random_id" "snapshot_identifier" {
 resource "aws_kms_key" "performance_insights_key" {
   description             = "KMS key for RDS PostgreSQL Performance Insights encryption"
   deletion_window_in_days = 30
-  enable_key_rotation     = true
+#   enable_key_rotation     = true
 
   tags = {
     Name        = "performance-insights-key"
