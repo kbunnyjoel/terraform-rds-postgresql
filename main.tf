@@ -5,7 +5,7 @@
 ################################################################################
 
 module "db" {
-  source = "https://github.com/kbunnyjoel/terraform-rds-postgresql.git?ref=v1.0"
+  source = "https://github.com/kbunnyjoel/terraform-rds-postgresql.git?ref=v1.1"
 
   identifier = local.name
 
