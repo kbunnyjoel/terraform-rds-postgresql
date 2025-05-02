@@ -3,7 +3,7 @@ locals {
 
   vpc_cidr         = "10.0.0.0/16"
   azs              = slice(data.aws_availability_zones.available.names, 0, 3)
-  kms_key_alias_id = data.aws_kms_alias.rds_key_id.id
+  kms_key_alias_id = data.aws_kms_alias.rds_key_id.target_key_id
 
   tags = {
     Name       = local.name

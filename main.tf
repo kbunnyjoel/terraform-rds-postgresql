@@ -5,7 +5,7 @@
 ################################################################################
 
 module "db" {
-  source = "git::https://github.com/kbunnyjoel/terraform-rds-postgresql-module.git?ref=v1.1"
+  source = "git::https://github.com/kbunnyjoel/terraform-rds-postgresql-module.git?ref=v1.3"
 
   identifier = local.name
 
@@ -188,4 +188,9 @@ resource "aws_kms_key" "performance_insights_key" {
 resource "aws_kms_alias" "performance_insights_alias" {
   name          = "alias/performance-insights-key"
   target_key_id = aws_kms_key.performance_insights_key.id
+}
+
+resource "aws_kms_alias" "a" {
+  name          = "alias/${local.name}"
+  target_key_id = module.kms.key_id
 }
