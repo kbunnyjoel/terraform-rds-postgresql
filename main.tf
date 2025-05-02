@@ -100,7 +100,7 @@ module "kms" {
   description = "KMS key for cross region automated backups replication"
 
   # Aliases
-  aliases                 = [local.name]
+  aliases                    = [local.name]
   aliases_use_name_prefix = true
 
   key_owners = [data.aws_caller_identity.current.arn]
