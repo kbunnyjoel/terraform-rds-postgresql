@@ -5,7 +5,7 @@
 ################################################################################
 
 module "db" {
-  source = "git::https://github.com/kbunnyjoel/terraform-rds-postgresql.git?ref=v1.1"
+  source = "git::https://github.com/kbunnyjoel/terraform-rds-postgresql-module.git?ref=v1.1"
 
   identifier = local.name
 
@@ -13,8 +13,8 @@ module "db" {
   engine                   = "postgres"
   engine_version           = "14"
   engine_lifecycle_support = "open-source-rds-extended-support-disabled"
-  family                   = "postgres14" # DB parameter group
-  major_engine_version     = "14"         # DB option group
+#   family                   = "postgres14" # DB parameter group
+#   major_engine_version     = "14"         # DB option group
   instance_class           = "db.t4g.large"
   storage_type             = "gp3"
   storage_encrypted        = true
@@ -46,10 +46,10 @@ module "db" {
   multi_az                  = true
   db_subnet_group_name      = module.vpc.database_subnet_group
   vpc_security_group_ids    = [module.security_group.security_group_id]
-  ca_cert_identifier        = var.ca_cert_identifier
-  snapshot_identifier       = var.snapshot_identifier
+  ca_cert_identifier        = "rds-ca-rsa4096-g1"
+  snapshot_identifier       = resource.random_id.snapshot_identifier.keepers.snapshot_identifier
   copy_tags_to_snapshot     = true
-  final_snapshot_identifier = "${local.name}-final-snapshot"
+#   final_snapshot_identifier = "${local.name}-final-snapshot"
 
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
@@ -69,26 +69,26 @@ module "db" {
   monitoring_role_name                  = "RDS-PostgreSQL-EnhancedMonitoringRole"
   monitoring_role_use_name_prefix       = true
   monitoring_role_description           = "Description for monitoring role"
-  performance_insights_kms_key_id       = module.aws_kms_key.performance_insights_alias.key_id
+  performance_insights_kms_key_id       = resource.aws_kms_alias.performance_insights_alias.target_key_id
 
-  parameters = [
-    {
-      name  = "autovacuum"
-      value = 1
-    },
-    {
-      name  = "client_encoding"
-      value = "utf8"
-    }
-  ]
+#   parameters = [
+#     {
+#       name  = "autovacuum"
+#       value = 1
+#     },
+#     {
+#       name  = "client_encoding"
+#       value = "utf8"
+#     }
+#   ]
 
   tags = local.tags
-  db_option_group_tags = {
-    "Sensitive" = "low"
-  }
-  db_parameter_group_tags = {
-    "Sensitive" = "low"
-  }
+#   db_option_group_tags = {
+#     "Sensitive" = "low"
+#   }
+#   db_parameter_group_tags = {
+#     "Sensitive" = "low"
+#   }
   cloudwatch_log_group_tags = {
     "Sensitive" = "high"
   }
@@ -167,7 +167,7 @@ resource "random_id" "snapshot_identifier" {
 
   keepers = {
     id                  = local.name
-    snapshot_identifier = var.snapshot_identifier
+    snapshot_identifier = "test-snapshot-db-identifier"
   }
 
   byte_length = 4
