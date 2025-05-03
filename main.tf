@@ -57,10 +57,10 @@ module "db" {
 #   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
 #   create_cloudwatch_log_group     = true
 
-  backup_retention_period  = 1
-  skip_final_snapshot      = true
-  deletion_protection      = false
-  delete_automated_backups = true
+#   backup_retention_period  = 1
+#   skip_final_snapshot      = true
+#   deletion_protection      = false
+#   delete_automated_backups = true
 
   performance_insights_enabled          = true
   performance_insights_retention_period = 7
