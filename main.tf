@@ -5,7 +5,7 @@
 ################################################################################
 
 module "db" {
-  source = "git::https://github.com/kbunnyjoel/terraform-rds-postgresql-module.git?ref=v1.3"
+  source = "git::https://github.com/kbunnyjoel/terraform-rds-postgresql-module.git?ref=main"
 
   identifier = local.name
 
@@ -54,8 +54,8 @@ module "db" {
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
-  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
-  create_cloudwatch_log_group     = true
+#   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+#   create_cloudwatch_log_group     = true
 
   backup_retention_period  = 1
   skip_final_snapshot      = true
